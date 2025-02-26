@@ -1,4 +1,7 @@
+/** @type {import('tailwindcss').Config} */
+
 export default {
-	content: ["./src/**/*.{ts,js,tsx,jsx}", "./node_modules/preline/preline.js"],
-	plugins: [require("preline/plugin")],
+	darkMode: 'class',
+	content: ["./src/**/*.{ts,js,tsx,jsx}", "./node_modules/preline/*.js"],
+	plugins: [require('@tailwindcss/forms'), require("preline/plugin")],
 };

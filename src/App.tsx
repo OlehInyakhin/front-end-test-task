@@ -1,38 +1,32 @@
-import { BrowserRouter, Route, Routes } from "react-router";
-import HomePage from "./app/home";
-import StoreProvider from "./components/StoreProvider";
-import UIProvider from "./components/UIProvider";
-import SignInPage from "./app/signIn";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router";
+import { HomePage } from "@/feature/dashboard/pages/Home";
+import { Providers } from "@/providers";
+import { SignInPage } from "@/feature/auth/pages/SignIn";
+import { PageWrapper } from "@/components/PageWrapper";
 
 const App = () => {
 	return (
-		<StoreProvider>
+		<Providers>
 			<BrowserRouter>
-				<Routes>
-					<Route
-						path="/"
-						element={
-							<PageWrapper>
-								<HomePage />
-							</PageWrapper>
-						}
-					/>
-					<Route
-						path="/sign-in"
-						element={
-							<PageWrapper>
-								<SignInPage />
-							</PageWrapper>
-						}
-					/>
-				</Routes>
+				<PageWrapper>
+					<Routes>
+						<Route
+							path="/"
+							element={<HomePage />}
+						/>
+						<Route
+							path="/sign-in"
+							element={<SignInPage />}
+						/>
+						<Route
+							path="*"
+							element={<Navigate to={'/'} />}
+						/>
+					</Routes>
+				</PageWrapper>
 			</BrowserRouter>
-		</StoreProvider>
+		</Providers>
 	);
-};
-
-const PageWrapper = ({ children }: { children: React.ReactNode }) => {
-	return <UIProvider>{children}</UIProvider>;
 };
 
 export default App;

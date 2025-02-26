@@ -1,11 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { catsApi } from "../services/catsService";
-import authReducer from "./slices/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { configureStore, Middleware } from "@reduxjs/toolkit";
+import { catsApi } from "@/feature/dashboard/services/catsService";
+import authReducer from "@/feature/auth/slices/authSlice";
 
-const customMiddleware = (store: any) => (next: any) => (action: any) => {
-	const result = next(action);
-	return result;
+const customMiddleware: Middleware = (store) => (next) => (action) => {
+	const response = next(action);
+	const afterState = store.getState();
+	console.log('store state', afterState);
+	return response;
 };
 
 const store = configureStore({
@@ -20,11 +21,7 @@ const store = configureStore({
 			.concat(catsApi.middleware),
 });
 
-export type RootState = ReturnType<any>;
-type AppDispatch = typeof store.dispatch;
-
-export const useAppDispatch = () => useDispatch();
-export const useAppSelector = <T extends any>(selector: (state: any) => T) =>
-	useSelector((state: RootState) => selector(state as any));
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export { store };
